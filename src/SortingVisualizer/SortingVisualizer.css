@@ -1,0 +1,23 @@
+body {
+    background-color: darkslategrey;
+}
+
+.array-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-items: baseline;
+}
+
+.array-bar {
+    display: inline-block;
+    margin: 0 1px;
+    width: 10px;
+    background-color: black;
+}
+
+button {
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-bottom: 10px;
+}
