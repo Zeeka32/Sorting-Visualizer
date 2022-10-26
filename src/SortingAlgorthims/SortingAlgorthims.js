@@ -132,13 +132,18 @@ export const selectionSort = array => {
     for (i = 0; i < array.length; i++) {
 
         min_idx = i;
+        animations.push([-2]);
         animations.push([i]);
 
-        for (j = i + 1; j < array.length; j++)
+        for (j = i + 1; j < array.length; j++) {
+            animations.push([j]);
             if (array[j] < array[min_idx]) {
                 min_idx = j;
+                animations.push([-1]);
                 animations.push([j]);
             }
+
+        }
 
         animations.push([min_idx, array[i]]);
         animations.push([i, array[min_idx]]);

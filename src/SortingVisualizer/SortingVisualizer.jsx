@@ -17,10 +17,17 @@ export default class SortingVisualizer extends React.Component {
 
     resetArray() {
         const array = [];
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 125; i++) {
             array.push(randomIntFromInterval(10, 700));
         }
         this.setState({ array });
+    }
+
+    EnableButtons() {
+        const buttons = document.getElementsByClassName('b');
+        for(let i = 0; i < buttons.length; i++) {
+            buttons[i].disabled = false;
+        }
     }
 
     mergeSort() {
@@ -45,7 +52,8 @@ export default class SortingVisualizer extends React.Component {
             }, i * 5);
           }
         }
-      }
+
+    }
 
     quickSort() {}
 
@@ -99,17 +107,56 @@ export default class SortingVisualizer extends React.Component {
     }
 
     selectionSort() {
-        const animations = SortingAlgorthims.insertionSort(this.state.array);
-
+        const animations = SortingAlgorthims.selectionSort(this.state.array);
+        let smallest;
         for(let i = 0; i < animations.length; i++) {
             const arrayBars = document.getElementsByClassName('array-bar');
-            if(animations[i].length == 1) {
-                const [minIndex] = animations[i];
-                const minIndexStyle = arrayBars[minIndex].style;
+            if(animations[i].length === 1) {
 
-                setTimeout(() => {
-                    minIndexStyle.backgroundColor = 'red';
-                }, i * 5);
+                let [animationFrame] = animations[i];
+
+                if(animationFrame === -2) {
+                    i++;
+                    [animationFrame] = animations[i];
+                    const BarStyle = arrayBars[animationFrame].style;
+                    setTimeout(() => {
+                        BarStyle.backgroundColor = 'red';
+                    }, i * 5);
+                    smallest = animationFrame;
+                }else if(animationFrame === -1) {
+                    i++;
+                    [animationFrame] = animations[i];
+                    const BarStyle = arrayBars[animationFrame].style;
+                    const oldBar = arrayBars[smallest].style;
+
+                    setTimeout(() => {
+                        oldBar.backgroundColor = 'black';
+                        BarStyle.backgroundColor = 'red';
+                    }, i * 5);
+                    smallest = animationFrame;
+                }
+                else {
+
+                    //TODO comparison animation
+
+                }
+            }else {
+                const [barOneIdx, newHeight] = animations[i];
+                if(barOneIdx >= 0){
+                    const barOneStyle = arrayBars[barOneIdx].style;
+                    setTimeout(() => {
+                        barOneStyle.height = `${newHeight}px`;
+                    }, i * 5);
+                    i++;
+                    const [barTwoIdx, newHeight1] = animations[i];
+                    const barTwoStyle = arrayBars[barTwoIdx].style;
+                    setTimeout(() => {
+                        barTwoStyle.height = `${newHeight1}px`;
+                        barTwoStyle.backgroundColor = 'black';
+                        barOneStyle.backgroundColor = 'black';
+                    }, i * 5);
+                    
+                }
             }
         }
     }
@@ -126,6 +173,7 @@ export default class SortingVisualizer extends React.Component {
                 const barOneStyle = arrayBars[barOneIdx].style;
                 const bartwoStyle = arrayBars[bartwoIdx].style;
                 setTimeout(() => {
+                   
                     barOneStyle.backgroundColor = 'red';
                     bartwoStyle.backgroundColor = 'red';
                 }, i * 5);
@@ -154,22 +202,31 @@ export default class SortingVisualizer extends React.Component {
 
     }
 
+
     render() {
         const {array} = this.state;
         
         return (
             <div>
-                <button onClick={() => this.mergeSort()}>Merge Sort</button>
-                <button onClick={() => this.quickSort()}>Quick Sort</button>
-                <button onClick={() => this.normalSort()}>Normal Sort</button>
-                <button onClick={() => this.selectionSort()}>Selection Sort</button>
-                <button onClick={() => this.insertionSort()}>Insertion Sort</button>
-                <button onClick={() => this.resetArray()}>Generate new Array</button>
-                <div className="array-container">
-                    {array.map((key, idx) => (
-                        <div className="array-bar" key={idx} style={{height: `${key}px`}}>
-                        </div>
-                    ))}
+                <nav className="navbar">
+                    <div className="navbar__container">
+                        <button className="b" onClick={() => this.mergeSort()}>Merge Sort</button>
+                        <button className="b" onClick={() => this.normalSort()}>Normal Sort</button>
+                        <button className="b" onClick={() => this.selectionSort()}>Selection Sort</button>
+                        <button className="b" onClick={() => this.insertionSort()}>Insertion Sort</button>
+                        <button className="b" onClick={() => this.resetArray()}>Generate new Array</button>
+                    </div>
+                </nav>
+                <div>
+                    <div className="array-container">
+                        {array.map((key, idx) => (
+                            <div className="array-bar" key={idx} style={{height: `${key}px`}}>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div>
+                    Developed by: Hussien Mostafa
                 </div>
             </div>
         );
