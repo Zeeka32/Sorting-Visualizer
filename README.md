@@ -1,4 +1,4 @@
-#This Project is still work in progress
+# This Project is still work in progress
 I hope you enjoy using this visualizer as much as i enjoyed developing it!
 
 to try it out visit: https://zeeka32.github.io/Sorting-Visualizer/
