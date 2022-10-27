@@ -13,6 +13,7 @@ body {
 }
 
 button {
+    margin: 10px;
     background-color: #111827;
     border: 1px solid transparent;
     border-radius: .75rem;

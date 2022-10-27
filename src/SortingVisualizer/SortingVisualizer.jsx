@@ -2,6 +2,8 @@ import React from "react";
 import './SortingVisualizer.css';
 import * as SortingAlgorthims from '../SortingAlgorthims/SortingAlgorthims.js';
 
+let time = 0;
+let oldProperties;
 export default class SortingVisualizer extends React.Component {
     constructor(props) {
         super(props);
@@ -23,14 +25,25 @@ export default class SortingVisualizer extends React.Component {
         this.setState({ array });
     }
 
-    EnableButtons() {
+    disableButtons() {
+        const buttons = document.getElementsByClassName('b');
+        oldProperties = buttons[0].style;
+        for(let i = 0; i < buttons.length; i++) {
+            buttons[i].disabled = true;
+            buttons[i].style.backgroundColor = 'grey';
+        }
+    }
+
+    enableButtons() {
         const buttons = document.getElementsByClassName('b');
         for(let i = 0; i < buttons.length; i++) {
             buttons[i].disabled = false;
+            buttons[i].style = oldProperties;
         }
     }
 
     mergeSort() {
+        this.disableButtons();
         const animations = SortingAlgorthims.mergeSort(this.state.array);
         for (let i = 0; i < animations.length; i++) {
           const arrayBars = document.getElementsByClassName('array-bar');
@@ -40,11 +53,13 @@ export default class SortingVisualizer extends React.Component {
             const barOneStyle = arrayBars[barOneIdx].style;
             const barTwoStyle = arrayBars[barTwoIdx].style;
             const color = i % 3 === 0 ? 'red' : 'black';
+            time = i * 5;
             setTimeout(() => {
               barOneStyle.backgroundColor = color;
               barTwoStyle.backgroundColor = color;
             }, i * 5);
           } else {
+            time = i * 5;
             setTimeout(() => {
               const [barOneIdx, newHeight] = animations[i];
               const barOneStyle = arrayBars[barOneIdx].style;
@@ -53,11 +68,14 @@ export default class SortingVisualizer extends React.Component {
           }
         }
 
+        setTimeout(() => {
+            this.enableButtons();
+        }, time);
+
     }
 
-    quickSort() {}
-
     normalSort() {
+        this.disableButtons();
         const animations = SortingAlgorthims.normalSort(this.state.array);
 
         for(let i = 0; i < animations.length;) {
@@ -65,7 +83,7 @@ export default class SortingVisualizer extends React.Component {
             const [barOneIdx, bartwoIdx] = animations[i];
             const barOneStyle = arrayBars[barOneIdx].style;
             const barTwoStyle = arrayBars[bartwoIdx].style;
-            
+
             setTimeout(() => {
                 barOneStyle.backgroundColor = 'red';
                 barTwoStyle.backgroundColor = 'red';
@@ -99,14 +117,20 @@ export default class SortingVisualizer extends React.Component {
                 }, i * 5);
                 i++;
             }
+            time = i * 5;
             setTimeout(() => {
                 barOneStyle.backgroundColor = 'black';
                 barTwoStyle.backgroundColor = 'black';
             }, i * 5);
         }
+
+        setTimeout(() => {
+            this.enableButtons();
+        }, time);
     }
 
     selectionSort() {
+        this.disableButtons();
         const animations = SortingAlgorthims.selectionSort(this.state.array);
         let smallest;
         for(let i = 0; i < animations.length; i++) {
@@ -129,6 +153,7 @@ export default class SortingVisualizer extends React.Component {
                     const BarStyle = arrayBars[animationFrame].style;
                     const oldBar = arrayBars[smallest].style;
 
+                    time = i * 5;
                     setTimeout(() => {
                         oldBar.backgroundColor = 'black';
                         BarStyle.backgroundColor = 'red';
@@ -144,12 +169,15 @@ export default class SortingVisualizer extends React.Component {
                 const [barOneIdx, newHeight] = animations[i];
                 if(barOneIdx >= 0){
                     const barOneStyle = arrayBars[barOneIdx].style;
+
                     setTimeout(() => {
                         barOneStyle.height = `${newHeight}px`;
                     }, i * 5);
                     i++;
                     const [barTwoIdx, newHeight1] = animations[i];
                     const barTwoStyle = arrayBars[barTwoIdx].style;
+
+                    time = i * 5;
                     setTimeout(() => {
                         barTwoStyle.height = `${newHeight1}px`;
                         barTwoStyle.backgroundColor = 'black';
@@ -159,9 +187,13 @@ export default class SortingVisualizer extends React.Component {
                 }
             }
         }
+        setTimeout(() => {
+            this.enableButtons();
+        }, time);
     }
 
     insertionSort() {
+        this.disableButtons();
         const animations = SortingAlgorthims.insertionSort(this.state.array);
 
         for(let i = 0; i < animations.length; i++) {
@@ -184,11 +216,13 @@ export default class SortingVisualizer extends React.Component {
                     barSwap.height = `${newHeight}px`;
                 }, i * 5);
 
+                time = i * 5;
                 setTimeout(() => {
                     barOneStyle.backgroundColor = 'black';
                     bartwoStyle.backgroundColor = 'black';
                 }, i * 5);
             }else {
+                time = i * 5;
                 setTimeout(() => {
                     i++;
                     const [barOneIdx, newHeight] = animations[i];
@@ -199,9 +233,15 @@ export default class SortingVisualizer extends React.Component {
                 }, i * 5);
             }
         }
-
+        
+        setTimeout(() => {
+            this.enableButtons();
+        }, time);
     }
 
+    quickSort() {
+
+    }
 
     render() {
         const {array} = this.state;

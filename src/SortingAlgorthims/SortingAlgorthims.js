@@ -152,3 +152,44 @@ export const selectionSort = array => {
 
     return animations;
 }
+
+export const quickSort = array => {
+    const animations = qSort(array, 0, array.length);
+
+    return animations;
+}
+
+function partition(arr, low, high, animations) {
+    let temp;
+    let pivot = arr[high];
+
+    let i = (low - 1);
+    for (let j = low; j <= high - 1; j++) {
+
+        if (arr[j] <= pivot) {
+            i++;
+
+            temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+
+    temp = arr[i + 1];
+    arr[i + 1] = arr[high];
+    arr[high] = temp;
+
+    return i + 1;
+}
+
+function qSort(arr, low, high, animations) {
+    if (low < high) {
+
+        let pi = partition(arr, low, high, animations);
+
+        qSort(arr, low, pi - 1);
+        qSort(arr, pi + 1, high);
+    }
+
+    return animations;
+}
