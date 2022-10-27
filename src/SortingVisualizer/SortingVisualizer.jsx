@@ -111,11 +111,13 @@ export default class SortingVisualizer extends React.Component {
             setTimeout(() => {
                 barOneStyle.backgroundColor = 'red';
                 barTwoStyle.backgroundColor = 'red';
-            }, i * 5);
+            }, (i * this.state.animationSpd) / 2);
             i++;
+
             if(i >= animations.length) {
                 break;
             }
+            
             const [animationMode1,animationMode2] = animations[i];
             if(animationMode1 === -1) {
                 i++;
@@ -127,7 +129,7 @@ export default class SortingVisualizer extends React.Component {
                 const barSwapStyle1 = arrayBars[barOne].style;
                 setTimeout(() => {
                     barSwapStyle1.height = `${newHeight1}px`;
-                }, i * 5);
+                }, (i * this.state.animationSpd) / 2);
                 i++;
 
                 if(i >= animations.length) {
@@ -138,14 +140,14 @@ export default class SortingVisualizer extends React.Component {
                 const barSwapStyle2 = arrayBars[barTwo].style;
                 setTimeout(() => {
                     barSwapStyle2.height = `${newHeight2}px`;
-                }, i * 5);
+                }, (i * this.state.animationSpd) / 2);
                 i++;
             }
-            time = i * 5;
+            time = (i * this.state.animationSpd) / 2;
             setTimeout(() => {
                 barOneStyle.backgroundColor = 'black';
                 barTwoStyle.backgroundColor = 'black';
-            }, i * 5);
+            }, (i * this.state.animationSpd) / 2);
         }
 
         setTimeout(() => {
@@ -169,7 +171,7 @@ export default class SortingVisualizer extends React.Component {
                     const BarStyle = arrayBars[animationFrame].style;
                     setTimeout(() => {
                         BarStyle.backgroundColor = 'red';
-                    }, i * 5);
+                    }, i * this.state.animationSpd);
                     smallest = animationFrame;
                 }else if(animationFrame === -1) {
                     i++;
@@ -177,11 +179,11 @@ export default class SortingVisualizer extends React.Component {
                     const BarStyle = arrayBars[animationFrame].style;
                     const oldBar = arrayBars[smallest].style;
 
-                    time = i * 5;
+                    time = i * this.state.animationSpd;
                     setTimeout(() => {
                         oldBar.backgroundColor = 'black';
                         BarStyle.backgroundColor = 'red';
-                    }, i * 5);
+                    }, i * this.state.animationSpd);
                     smallest = animationFrame;
                 }
                 else {
@@ -196,17 +198,17 @@ export default class SortingVisualizer extends React.Component {
 
                     setTimeout(() => {
                         barOneStyle.height = `${newHeight}px`;
-                    }, i * 5);
+                    }, i * this.state.animationSpd);
                     i++;
                     const [barTwoIdx, newHeight1] = animations[i];
                     const barTwoStyle = arrayBars[barTwoIdx].style;
 
-                    time = i * 5;
+                    time = i * this.state.animationSpd;
                     setTimeout(() => {
                         barTwoStyle.height = `${newHeight1}px`;
                         barTwoStyle.backgroundColor = 'black';
                         barOneStyle.backgroundColor = 'black';
-                    }, i * 5);
+                    }, i * this.state.animationSpd);
                     
                 }
             }
@@ -232,21 +234,21 @@ export default class SortingVisualizer extends React.Component {
                    
                     barOneStyle.backgroundColor = 'red';
                     bartwoStyle.backgroundColor = 'red';
-                }, i * 5);
+                }, i * this.state.animationSpd);
                 i++;
                 setTimeout(() => {
                     const [swapBar, newHeight] = animations[i];
                     const barSwap = arrayBars[swapBar].style;
                     barSwap.height = `${newHeight}px`;
-                }, i * 5);
+                }, i * this.state.animationSpd);
 
-                time = i * 5;
+                time = i * this.state.animationSpd;
                 setTimeout(() => {
                     barOneStyle.backgroundColor = 'black';
                     bartwoStyle.backgroundColor = 'black';
-                }, i * 5);
+                }, i * this.state.animationSpd);
             }else {
-                time = i * 5;
+                time = i * this.state.animationSpd;
                 setTimeout(() => {
                     i++;
                     const [barOneIdx, newHeight] = animations[i];
@@ -254,7 +256,7 @@ export default class SortingVisualizer extends React.Component {
                         const barOneStyle = arrayBars[barOneIdx].style;
                         barOneStyle.height = `${newHeight}px`;
                     }
-                }, i * 5);
+                }, i * this.state.animationSpd);
             }
         }
         
