@@ -6,6 +6,51 @@ input {
     direction: rtl
 }
 
+.silder__container {
+    display: flex;
+    flex-direction: row;
+}
+
+@media all and (max-width: 1400px) {
+    .silder__container {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media all and (max-width: 651px) {
+    .silder__container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .slider {
+        margin-top: 25px;
+    }
+    .text {
+        margin-top: 25px;
+    }
+}
+
+@media all and (max-width: 480px) {
+    .silder__container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .slider {
+        margin-top: 25px;
+    }
+    .text {
+        margin-top: 50px;
+    }
+}
+
+.sliders {
+    display: grid;
+    grid-template-columns: auto;
+}
+
 .slider {
     -webkit-appearance: none;
     height: 15px;

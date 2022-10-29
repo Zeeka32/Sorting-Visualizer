@@ -188,7 +188,21 @@ export default class SortingVisualizer extends React.Component {
                 }
                 else {
 
-                    //TODO comparison animation
+                    [animationFrame] = animations[i];
+                    const BarStyle = arrayBars[animationFrame].style;
+
+                    setTimeout(() => {
+                        BarStyle.backgroundColor = "red";
+                    }, i * this.state.animationSpd);
+
+                    i++;
+
+                    [animationFrame] = animations[i];
+                    const BarStyle1 = arrayBars[animationFrame].style;
+
+                    setTimeout(() => {
+                        BarStyle1.backgroundColor = "black";
+                    }, i * this.state.animationSpd);
 
                 }
             }else {
@@ -251,11 +265,15 @@ export default class SortingVisualizer extends React.Component {
                 time = i * this.state.animationSpd;
                 setTimeout(() => {
                     i++;
-                    const [barOneIdx, newHeight] = animations[i];
-                    if(barOneIdx >= 0){
-                        const barOneStyle = arrayBars[barOneIdx].style;
-                        barOneStyle.height = `${newHeight}px`;
+
+                    if(i < animations.length) {
+                        const [barOneIdx, newHeight] = animations[i];
+                        if(barOneIdx >= 0){
+                            const barOneStyle = arrayBars[barOneIdx].style;
+                            barOneStyle.height = `${newHeight}px`;
+                        }
                     }
+
                 }, i * this.state.animationSpd);
             }
         }
@@ -269,21 +287,78 @@ export default class SortingVisualizer extends React.Component {
 
     }
 
+    bubbleSort() {
+        this.disableButtons();
+        const animations = SortingAlgorthims.bubbleSort(this.state.array);
+        for(let i = 0; i < animations.length; i++) {
+            const arrayBars = document.getElementsByClassName('array-bar');
+            if(animations[i].length == 2) {
+                let [barOneIdx, barTwoIdx] = animations[i];
+
+                if(barTwoIdx >= arrayBars.length) {
+                    barTwoIdx--;
+                }
+
+                const barOneStyle = arrayBars[barOneIdx].style;
+                const barTwoStyle = arrayBars[barTwoIdx].style;
+
+                setTimeout(() => {
+                    barOneStyle.backgroundColor = 'red';
+                    barTwoStyle.backgroundColor = 'red';
+                }, i * this.state.animationSpd);
+
+                i++;
+
+                time = i * this.state.animationSpd;
+                setTimeout(() => {
+                    barOneStyle.backgroundColor = 'black';
+                    barTwoStyle.backgroundColor = 'black';
+                }, i * this.state.animationSpd);
+
+            }else {
+                i++;
+
+                const [barOneIdx, newHeight1] = animations[i];
+                const barOneStyle = arrayBars[barOneIdx].style;
+
+                i++;
+
+                const [barTwoIdx, newHeight2] = animations[i];
+                const barTwoStyle = arrayBars[barTwoIdx].style;
+
+                time = i * this.state.animationSpd;
+                setTimeout(() => {
+                    barOneStyle.height = `${newHeight1}px`;
+                    barTwoStyle.height = `${newHeight2}px`;
+                }, i * this.state.animationSpd);
+
+            }
+        }
+
+        setTimeout(() => {
+            this.enableButtons();
+        }, time);
+
+    }
+
     render() {
         const {array} = this.state;
         const {animationSpd} = this.state.animationSpd;
         return (
             <div>
                 <nav className="navbar">
-                    <div style={{color: "white"}}>Animation Speed</div>
-                    <input type="range" min="1" max="30" value={animationSpd} className="slider" onChange={(e) => this.handleChange(e.target.valueAsNumber)}></input>
-                    <div style={{color: "white"}}>Array Size</div>
-                    <input type="range" min="50" max="150" value={animationSpd} className="slider" id="myRange" onChange={(e) => this.handleSize(e.target.valueAsNumber)}></input>
+                    <div className="silder__container">
+                        <div style={{color: "white"}} className="text">Animation Speed</div>
+                        <input type="range" min="1" max="30" value={animationSpd} className="slider" onChange={(e) => this.handleChange(e.target.valueAsNumber)}></input>
+                        <div style={{color: "white"}} className="text">Array Size</div>
+                        <input type="range" min="50" max="150" value={animationSpd} className="slider" id="myRange" onChange={(e) => this.handleSize(e.target.valueAsNumber)}></input>
+                    </div>
                     <div className="navbar__container">
                         <button className="b" onClick={() => this.mergeSort()}>Merge Sort</button>
                         <button className="b" onClick={() => this.normalSort()}>Normal Sort</button>
                         <button className="b" onClick={() => this.selectionSort()}>Selection Sort</button>
                         <button className="b" onClick={() => this.insertionSort()}>Insertion Sort</button>
+                        <button className="b" onClick={() => this.bubbleSort()}>Bubble Sort</button>
                         <button className="b" onClick={() => this.resetArray()}>Generate new Array</button>
                     </div>
 

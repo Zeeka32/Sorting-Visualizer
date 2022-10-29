@@ -137,6 +137,7 @@ export const selectionSort = array => {
 
         for (j = i + 1; j < array.length; j++) {
             animations.push([j]);
+            animations.push([j]);
             if (array[j] < array[min_idx]) {
                 min_idx = j;
                 animations.push([-1]);
@@ -189,6 +190,28 @@ function qSort(arr, low, high, animations) {
 
         qSort(arr, low, pi - 1);
         qSort(arr, pi + 1, high);
+    }
+
+    return animations;
+}
+
+
+export const bubbleSort = array => {
+
+    const animations = [];
+
+    var i, j;
+    for (i = 0; i < array.length; i++) {
+        for (j = 0; j < array.length - i; j++) {
+            animations.push([j, j + 1]);
+            animations.push([j, j + 1]);
+            if (array[j] > array[j + 1]) {
+                animations.push([-1]);
+                animations.push([j, array[j + 1]]);
+                animations.push([j + 1, array[j]]);
+                swap(array, j, j + 1);
+            }
+        }
     }
 
     return animations;
